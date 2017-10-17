@@ -11,29 +11,47 @@ import numpy as np
 import csv
 from collections import Counter
 
+
+# count occurencies 
 def categoricalDataClassification(column):
-    # for i in range(len(column)):
-    for i in range(100):
+    for i in range(len(column)):
+    # for i in range(100):
         column[i] = str(column[i]).lower().replace(" ", "")
         print(i)
     return Counter(column)
 
+def writeToCSV(name, counter):
+	file = csv.writer(open(name, "w"))
+	for key, value in counter.items():
+		file.writerow([str(key), str(value)])
+		# print(key, value)
+
 dataset = pd.read_csv('parserData.csv',encoding = "ISO-8859-1")
 
-collegeNames = dataset.iloc[:,45]
+# Count College 
+collegeNames = dataset.iloc[:,'highestLevel_universityName']
 c_collegeNames = categoricalDataClassification(collegeNames)
-print(c_collegeNames)
+# print(c_collegeNames)
+# print(c_collegeNames.keys())
+writeToCSV("collegeNames.csv", c_collegeNames)
 
-# for key, count in c_collegeNames.items():
-#     name = key
-    # writer.writerow([name, count])
 
-titles = dataset.iloc[:,3]
+# file = csv.writer(open("categories.csv", "w"))
+# for key, value in c_collegeNames.items():
+# 	file.writerow([str(key), str(value)])
+# 	print(key, value)
+
+
+# Count Title
+titles = dataset.iloc[:,'title']
 c_titles = categoricalDataClassification(titles)
-print(c_titles)
+# print(c_titles)
+writeToCSV("titles.csv", c_titles)
 
-durations = dataset.iloc[:, 6]
-c_durations = categoricalDataClassification(durations)
-print(c_durations)
+# Count Duration
+durations = dataset.loc[:,'duration']
+c_durations = Counter(durations)
+writeToCSV("durations.csv", c_durations)
+# print(c_durations)
 
 

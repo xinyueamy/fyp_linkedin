@@ -324,7 +324,7 @@ countFailed = 0
 pastJobsNum = 6
 educationNum = 3
 
-file = csv.writer(open("test.csv", "wb"))
+file = csv.writer(open("data.csv", "w"))
 
 # row name in csv file
 rowName = []
@@ -360,18 +360,20 @@ rowName.append('languages')
 # Write headers to file
 file.writerow(rowName)
 
-directory = "/Users/apple/Desktop/COLLEGE/fyp/dataset"
+directory = "/Users/apple/Desktop/COLLEGE/fyp/dataset/"
 
 # allFiles = os.listdir(directory)
 # print(allFiles[0])
-for filename in os.listdir(directory):
-	# filename = os.path.join(directory, filename)
-    if filename.endswith(".html"):
-    	filename = os.path.join(directory, filename)
-    	count = count+1
-        print("==="+str(count))
-        print(countFailed)
-        WriteToCSV(filename)
+# for filename in os.listdir(directory):
+# 	# filename = os.path.join(directory, filename)
+#     if filename.endswith(".html"):
+#     	filename = os.path.join(directory, filename)
+#     	count = count+1
+#     	print("==="+str(count))
+#     	print(countFailed)
+#     	WriteToCSV(filename)
+
+WriteToCSV("/Users/apple/Desktop/COLLEGE/fyp/dataset/0.html")
 
 print("\n")
 print("Total number of links: " + str(count))

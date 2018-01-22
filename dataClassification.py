@@ -51,6 +51,12 @@ dataset = pd.read_csv('data.csv',encoding = "ISO-8859-1")
 # # print(c_titles)
 # writeToCSV("titles.csv", c_titles)
 
+# Count Title
+# company_name = dataset.loc[:,'org_summary']
+# c_company_name = categoricalDataClassification(company_name)
+# # print(c_titles)
+# writeToCSV("company_name.csv", c_company_name)
+
 # # Count Duration
 # durations = dataset.loc[:,'duration']
 # c_durations = Counter(durations)
@@ -66,17 +72,28 @@ dataset = pd.read_csv('data.csv',encoding = "ISO-8859-1")
 # c_jobCollege = categoricalDataClassification(jobCollege)
 # writeToCSV("firstjob_college.csv", c_jobCollege)
 
-firstJobDuration = combineColumns('past_job_duration1','past_job_title1')
-c_firstJobDuration = categoricalDataClassification(firstJobDuration)
-writeToCSV("firstJobDuration.csv", c_firstJobDuration)
+# firstJobDuration = combineColumns('past_job_duration1','past_job_title1')
+# c_firstJobDuration = categoricalDataClassification(firstJobDuration)
+# writeToCSV("firstJobDuration.csv", c_firstJobDuration)
 
-secondJobCompar = combineColumns('past_job_title1','past_job_title2')
-c_secondJobCompar = categoricalDataClassification(secondJobCompar)
-writeToCSV("secondJobCompar.csv", c_secondJobCompar)
+# secondJobCompar = combineColumns('past_job_title1','past_job_title2')
+# c_secondJobCompar = categoricalDataClassification(secondJobCompar)
+# writeToCSV("secondJobCompar.csv", c_secondJobCompar)
 
-connections = dataset.loc[:,'connections']
-c_connections = categoricalDataClassification(connections)
-writeToCSV("connections.csv",c_connections)
+# connections = dataset.loc[:,'connections']
+# c_connections = categoricalDataClassification(connections)
+# writeToCSV("connections.csv",c_connections)
+
+dataset1 = pd.read_csv('researchAssistant.csv',encoding = "ISO-8859-1")
+raCompany = dataset1.loc[:,'org_summary']
+c_raCompany = categoricalDataClassification(raCompany)
+writeToCSV("raCompany.csv",c_raCompany)
+
+# dataset2 = pd.read_csv('softwareEngineer.csv',encoding = "ISO-8859-1")
+# seCompany = dataset2.loc[:,'org_summary']
+# c_seCompany = categoricalDataClassification(seCompany)
+# writeToCSV("seCompany.csv",c_seCompany)
+
 
 
 

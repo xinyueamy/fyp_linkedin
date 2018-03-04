@@ -15,16 +15,16 @@ import csv
 # 	# 'otherLevel_degree3','otherLevel_major3','otherLevel_endDate3',
 # 	# 'otherLevel_detail3'],axis =1 ) 
 # print("dropped")
-dataset = pd.read_csv('data_v2.csv', encoding = "ISO-8859-1")
+dataset = pd.read_csv('/Users/apple/Desktop/COLLEGE/fyp/fyp_linkedin/data/data_v3.csv', encoding = "ISO-8859-1")
 dataset['title'] = dataset['title'].str.lower().str.replace(' ', '')
 
-softwareEngineer = dataset.loc[dataset['title'].isin(['softwareengineer'])]
+softwareEngineer = dataset.loc[dataset['title'].isin(['softwareengineer','seniorsoftwareengineer'])]
 # print(softwareengineer)
 softwareEngineer.to_csv('softwareEngineer.csv')
 print("success1")
 
-researchAssistant = dataset.loc[dataset['title'].isin(['researchassistant'])]
-researchAssistant.to_csv('researchAssistant.csv')
-print("success2")
+# researchAssistant = dataset.loc[dataset['title'].isin(['researchassistant'])]
+# researchAssistant.to_csv('researchAssistant.csv')
+# print("success2")
 
 

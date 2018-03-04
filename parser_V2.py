@@ -112,7 +112,8 @@ def Try(item):
 		return(result)
 	else:
 		# print("Has object")
-		return item.text.encode("utf8").strip().replace("$", "")
+		# return item.text.encode("utf8").strip().replace("$", "")
+		return item.text.strip().replace("$", "").replace("(", "").replace(")","")
 
 def TryDuration(item):
 	if item==None:
@@ -121,7 +122,7 @@ def TryDuration(item):
 		return(result)
 	else:
 		# print("Has object")
-		return item.text.encode("utf8").strip().replace("$", "").replace("(", "").replace(")","")
+		return item.text.strip().replace("$", "").replace("(", "").replace(")","")
 
 def Merge1(items):
 	result = ""
@@ -140,7 +141,7 @@ def Merge2(items1, items2):
 			result = result + item1 + item2 + ","
 	return result
 
-def GetRow(id, name, connections, currentJob, pastJobs, educations, skills, languages, languages_proficiency):
+def GetRow(id, name, connections, currentJob, pastJobs, educations, skills, languages, languages_proficiency,associations):
 	row = []	
 	row.append(id)
 	row.append(name)
@@ -178,6 +179,8 @@ def GetRow(id, name, connections, currentJob, pastJobs, educations, skills, lang
 	row.append(skill)
 	language = Merge2(languages,languages_proficiency)
 	row.append(language)
+	association = Merge1(associations)
+	row.append(association)
 
 	return row
 
@@ -186,6 +189,7 @@ def WriteToCSV(url):
 	content = open(url,'r')
 	try:
 		soup = BeautifulSoup(content, "html.parser")
+		# print("suc")
 	except:
 		pass
 
@@ -206,28 +210,64 @@ def WriteToCSV(url):
 	connections = "0"
 	languages = []
 	languages_proficiency = []
+	associations = []
+	# print("here")
 
 	try:
-		name = soup.find("span", {"id": "name"}).text.encode("utf8").strip().replace("$", "")
-		print("name: "+name)
+		name = soup.find("span", {"class": "full-name"}).text
+		# print("Name: "+name)
 		
 		# Get current job detail
 		try:
 			current_job = soup.find("div", {"class": "position first experience vevent vcard summary-current"})
-		except:
-			pass
+			# print(current_job)
+		# except:
+		# 	# print("failed job")
+		# 	pass
+			try:
+				# job_period = current_job.find("p", {"class": "period"})
+				job_periods = soup.find_all("p", {"class": "period"})[0]
+			except:
+				pass
 
-		try:
-			jobs_period = soup.find_all("p", {"class": "period"})[0]
-		except:
-			pass
+			try:
+				# currentJob.title = current_job.find("span",{"class":"title"}).text
+				currentJob.title = Try(current_job.find("span",{"class":"title"}))
+			except:
+				pass
 
-		currentJob.title = Try(current_job.find("span", {"class": "title"}))
-		currentJob.org_summary = Try(current_job.find("span", {"class": "org summary"}))
-		currentJob.org_detail = Try(soup.find("p", {"class": "orgstats organization-details current-position"}))
-		currentJob.duration = TryDuration(jobs_period.find("span", {"class": "duration"}))
-		currentJob.location = Try(jobs_period.find("span", {"class": "location"}))
-		currentJob.description = Try(soup.find("p", {"class": " description current-position"}))
+			try:
+				currentJob.org_summary = Try(soup.find("span", {"class":"org summary"}))
+				# print(currentJob.org_summary)
+			except:
+				pass
+
+			try:
+				currentJob.org_detail = Try(soup.find("p", {"class": "orgstats organization-details current-position"}))
+				# print(currentJob.org_detail)
+			except:
+				pass
+			
+			try:
+				currentJob.duration = TryDuration(soup.find("span", {"class": "duration"}))
+				# print(currentJob.duration)
+			except:
+				pass
+
+			try: 
+				currentJob.location = Try(job_periods.find("span", {"class": "location"}))
+				# print(currentJob.location)
+			except:
+				# print("Failed location")
+				pass
+			try:
+				currentJob.description = Try(soup.find("p", {"class": " description current-position"}))
+				# print(currentJob.description)
+			except:
+				pass
+		except: 
+			# print("Failed current job")
+			pass
 
 		# Print current job
 		# currentJob.printAll()
@@ -235,18 +275,29 @@ def WriteToCSV(url):
 		# Get past jobs' details
 		try:
 			past_jobs = soup.find_all("div", {"class": "position experience vevent vcard summary-past"})
+			# print(past_jobs)
+			# print("00000"+str(len(past_jobs)))
 			for i in range(len(past_jobs)):
 				past_job = past_jobs[i]
-
 				pastJobs.title[i] = Try(past_job.find("span", {"class": "title"}))
-				pastJobs.org_summary[i] = Try(past_job.find("span", {"class": "org summary"}))
+				# print("---" + str(i))
+				# print(pastJobs.title[i])
+				
+					# pastJobs.org_summary[i] = Try(soup.find_all("span", {"class": "org summary"})[i+1])
+				pastJobs.org_summary[i] = Try(past_job.find("span",{"class":"org summary"}))
+				# print(pastJobs.org_summary[i])
 				pastJobs.org_detail[i] = Try(soup.find_all("p", {"class": "orgstats organization-details past-position"})[i])
+				# print(pastJobs.org_detail[i])
 				pastJobs.duration[i] = TryDuration(soup.find_all("p", {"class": "period"})[i+1].find("span", {"class": "duration"}))
+				# print(pastJobs.duration[i])
 				pastJobs.location[i] = Try(soup.find_all("p", {"class": "period"})[i+1].find("span", {"class": "location"}))
+				# print(pastJobs.location[i])
 				pastJobs.description[i] = Try(soup.find_all("p", {"class": " description past-position"})[i])
+				# print(pastJobs.description[i])
 				# Print past jobs
-				# pastJobs.printAll(i)
+			# pastJobs.printAll(i)
 		except:
+			# print("failed past jobs")
 			pass
 
 		# Get highest-level-education details
@@ -303,8 +354,17 @@ def WriteToCSV(url):
 		except:
 			pass
 
+		try:
+			allAssociations = soup.find_all("li",{"class":"affiliation vcard"})
+			for association in allAssociations:
+				associations.append(Try(association.find("strong",{"class":"fn org"})))
+				# print(Try(association.find("strong",{"class":"fn org"})))
+
+		except:
+			pass
+
 		# one row 
-		row = GetRow(id, name, connections, currentJob, pastJobs, educations, skills, languages, languages_proficiency)
+		row = GetRow(id, name, connections, currentJob, pastJobs, educations, skills, languages, languages_proficiency,associations)
 
 		# Write the content into csv file
 		file.writerow(row)
@@ -314,17 +374,18 @@ def WriteToCSV(url):
 		# If there is no name, file was orginal linkedin page
 		# count +1
 		countFailed = countFailed+1
+		# print("h")
 		pass
 
 # total count for html files
-count = 0
+count = 1
 # global variables
 global countFailed, pastJobsNum, educationNum
 countFailed = 0	
-pastJobsNum = 6
-educationNum = 3
+pastJobsNum = 10
+educationNum = 7
 
-file = csv.writer(open("data.csv", "w"))
+file = csv.writer(open("data_v3.csv", "w"))
 
 # row name in csv file
 rowName = []
@@ -357,25 +418,26 @@ for i in range(educationNum):
 	rowName.append('otherLevel_detail'+str(i+1))
 rowName.append('skills')
 rowName.append('languages')
+rowName.append('associations')
 # Write headers to file
 file.writerow(rowName)
 
-# directory = "/Users/apple/Desktop/COLLEGE/fyp/dataset/"
+directory = "/Users/apple/Desktop/COLLEGE/fyp/dataset/Linkedin_data/"
 
-# allFiles = os.listdir(directory)
+allFiles = os.listdir(directory)
 # print(allFiles[0])
-# for filename in os.listdir(directory):
-# 	# filename = os.path.join(directory, filename)
-#     if filename.endswith(".html"):
-#     	filename = os.path.join(directory, filename)
-#     	count = count+1
-#     	print("==="+str(count))
-#     	print(countFailed)
-#     	WriteToCSV(filename)
+for filename in os.listdir(directory):
+	# filename = os.path.join(directory, filename)
+    if filename.endswith(".html"):
+    	filename = os.path.join(directory, filename)
+    	# print(filename)
+    	count = count+1
+    	print("==="+str(count))
+    	WriteToCSV(filename)
+    	print(countFailed)
 
-WriteToCSV("/Users/apple/Desktop/0.html")
+# WriteToCSV("/Users/apple/Desktop/COLLEGE/fyp/dataset/Linkedin_data/1860.html")
 
-print("\n")
 print("Total number of links: " + str(count))
 print("The number of failed links: " + str(countFailed))
 print("\n")

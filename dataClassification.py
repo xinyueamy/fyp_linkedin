@@ -30,7 +30,7 @@ def combineColumns(column1,column2):
 	column2=dataset.loc[:, column2]
 	return column1+column2
 
-dataset = pd.read_csv('data.csv',encoding = "ISO-8859-1")
+# dataset = pd.read_csv('data_v3.csv',encoding = "ISO-8859-1")
 
 # Count College 
 # collegeNames = dataset.loc[:,'highestLevel_universityName']
@@ -45,30 +45,30 @@ dataset = pd.read_csv('data.csv',encoding = "ISO-8859-1")
 # # 	file.writerow([str(key), str(value)])
 # # 	print(key, value)
 
-# # Count Title
+# Count Title
 # titles = dataset.loc[:,'title']
 # c_titles = categoricalDataClassification(titles)
 # # print(c_titles)
 # writeToCSV("titles.csv", c_titles)
 
-# Count Title
+# #Count Title
 # company_name = dataset.loc[:,'org_summary']
 # c_company_name = categoricalDataClassification(company_name)
 # # print(c_titles)
 # writeToCSV("company_name.csv", c_company_name)
 
-# # Count Duration
+# Count Duration
 # durations = dataset.loc[:,'duration']
 # c_durations = Counter(durations)
 # writeToCSV("durations.csv", c_durations)
 # print(c_durations)
 
 # jobCollege = combineColumns('past_job_title1','highestLevel_universityName')
-# # for i in range(len(combine)):
-# #         combine[i] = combine[i].lower().replace(" ", "")
-# #         print(i)
-# # c_c = Counter(combine)
-# # print(c_c)
+# for i in range(len(combine)):
+#         combine[i] = combine[i].lower().replace(" ", "")
+#         print(i)
+# c_c = Counter(combine)
+# print(c_c)
 # c_jobCollege = categoricalDataClassification(jobCollege)
 # writeToCSV("firstjob_college.csv", c_jobCollege)
 
@@ -84,15 +84,15 @@ dataset = pd.read_csv('data.csv',encoding = "ISO-8859-1")
 # c_connections = categoricalDataClassification(connections)
 # writeToCSV("connections.csv",c_connections)
 
-dataset1 = pd.read_csv('researchAssistant.csv',encoding = "ISO-8859-1")
-raCompany = dataset1.loc[:,'org_summary']
-c_raCompany = categoricalDataClassification(raCompany)
-writeToCSV("raCompany.csv",c_raCompany)
+# dataset1 = pd.read_csv('researchAssistant.csv',encoding = "ISO-8859-1")
+# raCompany = dataset1.loc[:,'org_summary']
+# c_raCompany = categoricalDataClassification(raCompany)
+# writeToCSV("raCompany.csv",c_raCompany)
 
-# dataset2 = pd.read_csv('softwareEngineer.csv',encoding = "ISO-8859-1")
-# seCompany = dataset2.loc[:,'org_summary']
-# c_seCompany = categoricalDataClassification(seCompany)
-# writeToCSV("seCompany.csv",c_seCompany)
+dataset2 = pd.read_csv('/Users/apple/Desktop/COLLEGE/fyp/fyp_linkedin/data/softwareEngineer.csv',encoding = "ISO-8859-1")
+seCompany = dataset2.loc[:,'org_summary']
+c_seCompany = categoricalDataClassification(seCompany)
+writeToCSV("seCompany.csv",c_seCompany)
 
 
 

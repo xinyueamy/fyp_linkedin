@@ -1,4 +1,4 @@
-package xinyue.linkedInSearch;
+package indexer.indexer;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

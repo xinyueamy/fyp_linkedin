@@ -31,7 +31,7 @@ public class App {
 		ApplicationSetup.setProperty("ignore.low.idf.terms","false");
 
 		// Create a new Index
-		Indexer indexer = new BasicIndexer("/Users/apple/Desktop/COLLEGE/fyp/index", "data");
+		Indexer indexer = new BasicIndexer("/Users/apple/Desktop/index/", "data");
 //		Indexer indexer = ; 
 //		= new BasicIndexer("/Users/apple/Desktop/index/", "data");
 

@@ -32,10 +32,11 @@ public class App extends JFrame
 	private static String matching = ApplicationSetup.getProperty("desktop.matching","Matching");
 	private static String weighting = ApplicationSetup.getProperty("desktop.model", "PL2");
 
-	public static void main(String[] args) {
-	
-	}
-	
+//	public static void main(String[] args) {
+//		App();
+//	
+//	}
+
 	public App() {
 		ApplicationSetup.BLOCK_INDEXING = true;
 		if (( ApplicationSetup.getProperty("querying.allowed.controls", null)) == null)

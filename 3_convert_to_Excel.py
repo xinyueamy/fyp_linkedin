@@ -18,7 +18,7 @@ import os
 #         worksheet.write(row)
 #         workbook.close()           
 
-directory = "/Users/apple/Desktop/COLLEGE/fyp/fyp_linkedin/data/"
+directory = "/Users/apple/Desktop/COLLEGE/fyp/data/data_csv"
 count = 0
 # allFiles = os.listdir(directory)
 # print(allFiles)
